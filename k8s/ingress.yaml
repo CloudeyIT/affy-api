@@ -1,0 +1,65 @@
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{service.name}}
+  namespace: {{build.profile.namespace}}
+  labels:
+    app: {{service.name}}
+  annotations:
+    certmanager.k8s.io/cluster-issuer: "letsencrypt-production"
+    kubernetes.io/tls-acme: "true"
+spec:
+  tls:
+    - hosts:
+      {% for domain in build.profile.domains %}
+      - {{domain}}
+      {% endfor %}
+      secretName: {{service.name}}-tls
+  rules:
+  {% for domain in build.profile.domains %}
+  - host: {{domain}}
+    http:
+      paths:
+        - backend:
+            serviceName: {{service.name}}
+            servicePort: {{service.targetPort}}
+  {% endfor %}
+status:
+  loadBalancer: {}
+
+  {% if build.profile.redirects %}
+  {% for redirect in build.profile.redirects %}
+  {% set name = '%s-%s' % (redirect.from | replace('.', '-'), 'redirect' ) %}
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{name}}
+  namespace: {{build.profile.namespace}}
+  labels:
+    app: {{service.name}}
+  annotations:
+    certmanager.k8s.io/cluster-issuer: "letsencrypt-production"
+    kubernetes.io/tls-acme: "true"
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      rewrite ^/(.*)$ {{redirect.to}}/$1 redirect;
+    {% if build.profile.iprestriction %}
+    nginx.ingress.kubernetes.io/whitelist-source-range: {{build.profile.iprestriction}}
+    {% endif %}
+spec:
+  tls:
+    - hosts:
+        - {{ redirect.from }}
+      secretName: {{name}}-tls
+  rules:
+    - host: {{redirect.from}}
+      http:
+        paths:
+          - backend:
+              serviceName: {{service.name}}
+              servicePort: {{service.targetPort}}
+status:
+  loadBalancer: {}
+  {% endfor %}
+  {% endif %}

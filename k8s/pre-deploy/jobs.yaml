@@ -1,0 +1,32 @@
+﻿{% set image = env.DOCKER_IMAGE if env.DOCKER_IMAGE is defined else build.images["docker/dev/Dockerfile"] %}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{service.name}}-deploy
+  namespace: {{build.profile.namespace}}
+spec:
+  completions: 1
+  backoffLimit: 0
+  ttlSecondsAfterFinished: 3600
+  template:
+    spec:
+      enableServiceLinks: False
+      restartPolicy: Never
+      imagePullSecrets:
+        - name: regcred
+      containers:
+        - name: {{service.name}}-deploy
+          image: {{image}}
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - name: config
+              mountPath: /app/appsettings.Local.json
+              subPath: appsettings.Local.json
+          envFrom:
+            - configMapRef:
+                name: {{service.name}}-config
+          command: ['./migrations']
+      volumes:
+        - name: config
+          configMap:
+            name: {{service.name}}-config

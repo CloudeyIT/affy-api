@@ -1,0 +1,30 @@
+﻿name: {{env.CI_PROJECT_NAME}}
+targetPort: 80
+# Enable this if you want the expose the backend under /api
+#backendName: {{env.CI_PROJECT_NAME | replace("front", "api")}}
+#backendPort: 80
+memory: 2G
+cpu: 2
+
+profiles:
+  production:
+    namespace: production
+    domains:
+      - {{env.CI_PROJECT_NAME}}.k.elnino-production.com
+        # Enable extra annotations for the production profile:
+        # Available annotations: https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/annotations
+      # extraAnnotations:
+      # To redirect from non-www to www also add the non-www to the extraTlsDomains list
+      # nginx.ingress.kubernetes.io/from-to-www-redirect: '"true"'
+    # extraTlsDomains:
+  acceptance:
+    namespace: acceptance
+    domains:
+      - {{env.CI_PROJECT_NAME}}.k.elnino-acceptance.com
+  dev:
+    namespace: dev
+    domains:
+      - {{env.CI_PROJECT_NAME}}.k.elnino-dev.com
+
+containers:
+  - Dockerfile

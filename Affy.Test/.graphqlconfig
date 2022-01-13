@@ -1,0 +1,15 @@
+﻿{
+  "name": "App",
+  "schemaPath": "schema.graphql",
+  "extensions": {
+    "endpoints": {
+      "Local": {
+        "url": "http://localhost:7175/graphql",
+        "headers": {
+          "user-agent": "GraphQL"
+        },
+        "introspect": false
+      }
+    }
+  }
+}

@@ -1,0 +1,65 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Autofac" Version="6.3.0" />
+        <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.2.0" />
+        <PackageReference Include="EntityFrameworkCore.Triggers" Version="1.2.3" />
+        <PackageReference Include="FairyBread" Version="9.0.0-rc.1" />
+        <PackageReference Include="FluentValidation" Version="10.3.6" />
+        <PackageReference Include="FluentValidation.AspNetCore" Version="10.3.6" />
+        <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="10.3.6" />
+        <PackageReference Include="GitInfo" Version="2.2.0" />
+        <PackageReference Include="HotChocolate.AspNetCore" Version="12.4.1" />
+        <PackageReference Include="HotChocolate.AspNetCore.Authorization" Version="12.4.1" />
+        <PackageReference Include="HotChocolate.Data" Version="12.4.1" />
+        <PackageReference Include="HotChocolate.Data.EntityFramework" Version="12.4.1" />
+        <PackageReference Include="HotChocolate.PersistedQueries.InMemory" Version="12.4.1" />
+        <PackageReference Include="IdentityModel" Version="6.0.0" />
+        <PackageReference Include="Mapster" Version="7.2.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.1" />
+        <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.1" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.1">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="6.0.1" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.1">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.15.0" />
+        <PackageReference Include="morelinq" Version="3.3.2" />
+        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="6.0.2" />
+        <PackageReference Include="Opw.HttpExceptions.AspNetCore" Version="4.0.1" />
+        <PackageReference Include="PasswordGenerator" Version="2.0.5" />
+        <PackageReference Include="Sentry" Version="3.12.3" />
+        <PackageReference Include="Sentry.AspNetCore" Version="3.12.3" />
+        <PackageReference Include="Sentry.Serilog" Version="3.12.3" />
+        <PackageReference Include="Serilog" Version="2.10.0" />
+        <PackageReference Include="Serilog.AspNetCore" Version="4.1.0" />
+        <PackageReference Include="Serilog.Enrichers.Environment" Version="2.2.0" />
+        <PackageReference Include="Serilog.Exceptions" Version="8.0.0" />
+        <PackageReference Include="Serilog.Exceptions.EntityFrameworkCore" Version="8.0.0" />
+        <PackageReference Include="Serilog.Extensions.Autofac.DependencyInjection" Version="4.0.0" />
+        <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.2.3" />
+        <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.15.0" />
+        <PackageReference Include="System.Text.Encodings.Web" Version="6.0.0" />
+        <PackageReference Include="Ulid" Version="1.2.6" />
+    </ItemGroup>
+    
+</Project>

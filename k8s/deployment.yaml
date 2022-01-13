@@ -1,0 +1,52 @@
+{% set image = env.DOCKER_IMAGE if env.DOCKER_IMAGE is defined else build.images["Dockerfile"] %}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{service.name}}
+  namespace: {{build.profile.namespace}}
+  annotations:
+    reloader.stakater.com/auto: "true"
+  labels:
+    app: {{service.name}}
+spec:
+  selector:
+    matchLabels:
+      app: {{service.name}}
+  strategy:
+    type: Recreate
+  minReadySeconds: 10
+  template:
+    metadata:
+      labels:
+        app: {{service.name}}
+      name: {{service.name}}
+    spec:
+      containers:
+      - name: {{service.name}}
+        image: {{image}}
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: {{service.targetPort}}
+        resources:
+          requests:
+            memory: {{service.memory}}
+            cpu: {{service.cpu}}
+        terminationMessagePath: /dev/termination-log
+        volumeMounts:
+          - name: config
+            mountPath: /app/appsettings.Local.json
+            subPath: appsettings.Local.json
+        envFrom:
+          - configMapRef:
+              name: {{service.name}}-config
+      imagePullSecrets:
+      - name: regcred
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+      volumes:
+        - name: config
+          configMap:
+            name: {{service.name}}-config

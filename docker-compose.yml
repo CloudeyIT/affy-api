@@ -1,0 +1,43 @@
+version: '3.6'
+
+services:
+  production:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    labels:
+      traefik.enable: "true"
+    links:
+      - postgres
+    environment:
+      APP_ConnectionStrings__MainDb: "Server=postgres;Port=5432;Database=Affy;User Id=Affy;Password=Affy;"
+  test:
+    build:
+      context: .
+      dockerfile: Test.Dockerfile
+    links:
+      - postgres-test
+    environment:
+      APP_ConnectionStrings__MainDb: "Server=postgres-test;Port=5432;Database=Affy_test;User Id=Affy_test;Password=Affy_test;"
+  postgres:
+    image: postgres:14
+    volumes:
+      - /var/lib/postgresql/data
+    ports:
+      - "25432:5432"
+    environment:
+      POSTGRES_USER: Affy
+      POSTGRES_PASSWORD: Affy
+      POSTGRES_DB: Affy
+  postgres-test:
+    image: postgres:14
+    ports:
+      - "25433:5432"
+    environment:
+      POSTGRES_USER: Affy_test
+      POSTGRES_PASSWORD: Affy_test
+      POSTGRES_DB: Affy_test
+networks:
+  default:
+    name: elnino-dev
+    external: true
