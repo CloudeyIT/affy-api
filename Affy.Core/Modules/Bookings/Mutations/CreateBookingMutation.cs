@@ -47,7 +47,7 @@ public class CreateBookingMutation
     {
         var company = await db.Set<Company>()
             .Include(
-                c => c.OpeningTimes.Where(o => o.Start.Date <= input.Start.Date && o.End.Date >= input.Start.Date)
+                c => c.OpeningTimes.Where(o => o.Start <= input.Start && o.End >= input.Start)
                     .OrderByDescending(o => o.Start)
             )
             .Where(c => c.Slug == input.CompanySlug.ToLower())
