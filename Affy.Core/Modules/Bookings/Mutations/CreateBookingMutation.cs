@@ -92,6 +92,7 @@ public class CreateBookingMutation
             },
             Start = timeslot.Start,
             End = timeslot.End,
+            OpeningTimeId = openingTime.Id,
         };
 
         db.Set<Booking>().Add(booking);

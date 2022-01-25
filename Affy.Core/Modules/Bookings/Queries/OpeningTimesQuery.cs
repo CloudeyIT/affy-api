@@ -10,13 +10,13 @@ public class OpeningTimesQuery
     public record OpeningTimesQueryInput(string CompanySlug);
 
     [UseOffsetPaging(MaxPageSize = 7, DefaultPageSize = 7)]
-    [UseProjection]
     [UseFiltering]
     [UseSorting]
     public IQueryable<OpeningTime> OpeningTimes (OpeningTimesQueryInput input, MainDb db)
     {
         return db.Set<OpeningTime>()
             .Include(o => o.Company)
+            .Include(o => o.Bookings)
             .Where(o => o.Company!.Slug == input.CompanySlug)
             .AsQueryable();
     }
